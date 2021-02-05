@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Flower Shop</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+</head>
+<body>
+    <div id="wrap">
+        <div class="header">
+            <div class="logo"><a href="#"><img src="~/Content/images/logo.gif" alt="" border="0" /></a></div>
+            <div id="menu">
+                <ul>
+                    <li class="selected"><a href="#s/">home</a></li>
+                    <li><a href="#">about us</a></li>
+                    <li><a href="#">flowers</a></li>
+                    <li><a href="#">specials gifts</a></li>
+                    <li><a href="#">my accout</a></li>
+                    <li><a href="#">register</a></li>
+                    <li><a href="#">prices</a></li>
+                    <li><a href="#">contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        @RenderBody()
+
+
+        <div class="footer">
+            <div class="left_footer">
+                <img src="~/Content/images/footer_logo.gif" alt="" /><br />
+                <a href="#"><img src="~/Content/images/csscreme.gif" alt="" border="0" /></a>
+            </div>
+            <div class="right_footer"> <a href="#">home</a> <a href="#">about us</a> <a href="#">services</a> <a href="#">privacy policy</a> <a href="#">contact us</a> </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
