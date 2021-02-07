@@ -14,7 +14,27 @@ namespace FlowerShop.Services
 {
     public class ProizvodService
     {
+        #region Singleton
+        public static ProizvodService Instance
+        {
+            get
+            {
+                if (instance == null) instance = new ProizvodService();
+
+                return instance;
+            }
+        }
+
+        private static ProizvodService instance { get; set; }
+
+        private ProizvodService()
+        {
+
+        }
+        #endregion
+
         private IMongoCollection<Proizvod> _proizvodi;
+
         public List<Proizvod> VratiSveProizvode()
         {
 
@@ -25,6 +45,29 @@ namespace FlowerShop.Services
 
             return proizvodi;
 
+        }
+
+        public void DodajProizvod(Proizvod proizvod)
+        {
+            var db = SessionManager.GetMongoDB();
+            _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
+            _proizvodi.InsertOne(proizvod);
+
+        }
+
+        public void IzbrisiProizvod(string Id)
+        {
+            var db = SessionManager.GetMongoDB();
+            _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
+            _proizvodi.DeleteOne(x => x.Id == ObjectId.Parse(Id));
+        }
+
+        public void IzmeniProizvod(string Id,Proizvod proizvod)
+        {
+            var db = SessionManager.GetMongoDB();
+            _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
+            proizvod.Id = ObjectId.Parse(Id);
+            _proizvodi.ReplaceOne(pr => pr.Id == ObjectId.Parse(Id), proizvod);
         }
     }
 }

@@ -13,8 +13,9 @@ namespace FlowerShop.Entities
     {
         public ObjectId Id { get; set; }
         public string Naziv { get; set; }
-        //public string Opis { get; set; }
-        //public string ImageUrl { get; set; }
-        //public float Cena { get; set; }
+        public string Opis { get; set; }
+        public string ImageUrl { get; set; }
+        public float Cena { get; set; }
+
     }
 }

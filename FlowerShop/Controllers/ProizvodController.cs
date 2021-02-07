@@ -1,4 +1,5 @@
-﻿using FlowerShop.Services;
+﻿using FlowerShop.Entities;
+using FlowerShop.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,60 @@ namespace FlowerShop.Controllers
         // GET: Proizvod
         public ActionResult Index()
         {
-            ProizvodService p = new ProizvodService();
-            p.VratiSveProizvode();
+            ProizvodService.Instance.VratiSveProizvode();
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult DodajProizvod(Proizvod proizvod)
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            if (proizvod != null)
+            {
+                ProizvodService.Instance.DodajProizvod(proizvod);
+                result.Data = new { Success = true };
+            }
+            else
+            {
+                result.Data = new { Success = false };
+            }
+            return result;
+
+        }
+
+        [HttpPost]
+        public JsonResult IzbrisiProizvod(string Id)
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            if (!string.IsNullOrEmpty(Id))
+            {
+                ProizvodService.Instance.IzbrisiProizvod(Id);
+                result.Data = new { Success = true };
+            }
+            else
+            {
+                result.Data = new { Success = false };
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public JsonResult IzmeniProizvod(string Id,Proizvod proizvod)
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            if (proizvod != null)
+            {
+                ProizvodService.Instance.IzmeniProizvod(Id,proizvod);
+                result.Data = new { Success = true };
+            }
+            else
+            {
+                result.Data = new { Success = false };
+            }
+            return result;
         }
     }
 }
