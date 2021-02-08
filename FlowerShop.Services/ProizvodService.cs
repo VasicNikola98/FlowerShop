@@ -46,6 +46,13 @@ namespace FlowerShop.Services
             return proizvodi;
 
         }
+        public Proizvod VratiProizvod(string Id)
+        {
+            var db = SessionManager.GetMongoDB();
+            _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
+            var proizvod = _proizvodi.Find<Proizvod>(x => true && x.Id == ObjectId.Parse(Id)).FirstOrDefault();
+            return proizvod;
+        }
 
         public void DodajProizvod(Proizvod proizvod)
         {

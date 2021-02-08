@@ -107,6 +107,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KategorijaService.cs" />
     <Compile Include="ProizvodService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
