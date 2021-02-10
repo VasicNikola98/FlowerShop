@@ -1,5 +1,6 @@
 ﻿using FlowerShop.Entities;
 using FlowerShop.Services;
+using FlowerShop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,9 @@ namespace FlowerShop.Controllers
         // GET: Proizvod
         public ActionResult Index()
         {
-            ProizvodService.Instance.VratiSveProizvode();
-            return View();
+            ProizvodViewModel model = new ProizvodViewModel();
+            model.Proizvodi = ProizvodService.Instance.VratiSveProizvode();
+            return View(model);
         }
 
         [HttpPost]

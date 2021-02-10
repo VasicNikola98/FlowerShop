@@ -1,0 +1,24 @@
+﻿@model FlowerShop.ViewModels.KorpaViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Cena</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MojiProizvodi)
+            {
+                <tr>
+                   <td>@item.Naziv</td>
+                   <td>@item.Cena</td>
+                </tr>
+            }
+         </tbody>
+    </table>
+</div>

@@ -1,0 +1,92 @@
+﻿@model FlowerShop.ViewModels.ProizvodViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Naziv</th>
+                <th>Opis</th>
+                <th>Akcija</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.Proizvodi)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Naziv</td>
+                    <td>@item.Opis</td>
+                    <td>
+                    <a style="cursor:pointer;" class="btn btn-outline-success btn-sm dodajUKorpu" data-id="@item.Id">Korpa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    function generateUUID() {
+        var d = new Date().getTime();
+        var d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16;
+            if (d > 0) {
+                r = (d + r) % 16 | 0;
+                d = Math.floor(d / 16);
+            } else {
+                r = (d2 + r) % 16 | 0;
+                d2 = Math.floor(d2 / 16);
+            }
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+    }
+
+
+    $(".dodajUKorpu").click((e) => {
+       
+  
+     let prId = e.target.attributes.getNamedItem("data-id").value;
+
+     if (localStorage.getItem('cartHashUserId') == null) {
+         var hashUserId = generateUUID();
+         localStorage.setItem('cartHashUserId', hashUserId);
+         document.cookie = "cartItemHashedUserId=" + hashUserId + "; path=/";
+     }
+ 
+
+      $.ajax({
+          method: 'POST',
+          dataType: 'json',
+          url: '@Url.Action("DodajUKorpu","Korpa")',
+          data: {
+              Kolicina: 1,
+              IdProizvoda: prId
+          }
+      })
+          .done(function (response) {
+              if (response.Success) {
+                  getCartCounter();
+
+                  toastr.options = {
+                      "debug": false,
+                      "positionClass": "toast-bottom-right",
+                      "onclick": null,
+                      "fadeIn": 300,
+                      "fadeOut": 1000,
+                      "timeOut": 5000,
+                      "extendedTimeOut": 1000
+                  }
+
+                  toastr["success"]("Proizvod je dodat u korpu!");
+                 
+              }
+          });
+   
+    });
+</script>
