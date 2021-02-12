@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="KategorijaService.cs" />
     <Compile Include="KorpaService.cs" />
+    <Compile Include="NarudzbinaService.cs" />
     <Compile Include="ProizvodService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

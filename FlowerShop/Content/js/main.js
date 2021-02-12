@@ -15,7 +15,7 @@ function getCartCounter() {
         url: '/Korpa/BrojProizvodaUKorpi/',
         dataType: "json",
         success: function (result) {
-            $('#cartProductsCount').html(result);
+           $('.cartProductsCount').html(result);
         }
     });
 }

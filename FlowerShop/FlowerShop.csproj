@@ -232,6 +232,7 @@
     <Compile Include="Controllers\KategorijaController.cs" />
     <Compile Include="Controllers\KorpaController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NarudzbinaController.cs" />
     <Compile Include="Controllers\ProizvodController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -377,6 +378,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Kategorija\" />
+    <Folder Include="Views\Narudzbina\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -47,5 +47,12 @@ namespace FlowerShop.Services
             return mojaKorpa;
         }
 
+        public void IzbrisiKorpu(string hashID)
+        {
+            var db = SessionManager.GetMongoDB();
+            _korpe = db.GetCollection<Korpa>("Korpe");
+            _korpe.DeleteMany(x => x.HashUserId.Contains(hashID));
+        }
+
     }
 }
