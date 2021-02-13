@@ -1,0 +1,43 @@
+﻿@model FlowerShop.ViewModels.NarudzbinaViewListingModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
+<div class="container mb-4">
+    <table id="orderTable" class="table-hover">
+        <thead>
+            <tr>
+                <th>Sifra porudzbine</th>
+                <th>Ukupna cena</th>
+                <th>Datum porucivanja</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.Posiljke)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.UkupnaCena</td>
+                    <td>@item.DatumPorucivanja.ToString("dd-MM-yyyy")</td>
+                    <td>@item.Email</td>
+                    <td><a style="cursor:pointer;" href="@Url.Action("DetaljiNarudzbine","Narudzbina", new { Id = item.Id } )" class="btn btn-sm btn-info">Detalji</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#orderTable').DataTable();
+    });
+</script>
+
+

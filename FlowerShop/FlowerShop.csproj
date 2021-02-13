@@ -243,6 +243,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\KorpaViewModels.cs" />
+    <Compile Include="ViewModels\NarudzbinaViewModels.cs" />
     <Compile Include="ViewModels\ProizvodViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -374,11 +375,12 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Proizvod\Index.cshtml" />
     <Content Include="Views\Korpa\Index.cshtml" />
+    <Content Include="Views\Narudzbina\Index.cshtml" />
+    <Content Include="Views\Narudzbina\DetaljiNarudzbine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Kategorija\" />
-    <Folder Include="Views\Narudzbina\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

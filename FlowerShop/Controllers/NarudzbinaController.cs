@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using FlowerShop.Entities;
 using FlowerShop.Services;
+using FlowerShop.ViewModels;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -15,7 +16,9 @@ namespace FlowerShop.Controllers
         // GET: Narudzbina
         public ActionResult Index()
         {
-            return View();
+            NarudzbinaViewListingModel model = new NarudzbinaViewListingModel();
+            model.Posiljke = NarudzbinaService.Instance.VratiSveNarudzbine();
+            return View(model);
         }
 
         public JsonResult KreirajNarudzbinu(Posiljka posiljka)
@@ -30,6 +33,16 @@ namespace FlowerShop.Controllers
             KorpaService.Instance.IzbrisiKorpu(hashId.Value);
             result.Data = new { Success = true };
             return result;
+        }
+
+        [HttpGet]
+        
+        public ActionResult DetaljiNarudzbine(string Id)
+        {
+            NarudzbinaViewModel model = new NarudzbinaViewModel();
+            model.Posiljka = NarudzbinaService.Instance.VratiNarudzbinu(Id);
+
+            return View(model);
         }
     }
 }

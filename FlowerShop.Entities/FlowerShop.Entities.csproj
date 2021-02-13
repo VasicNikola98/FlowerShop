@@ -108,6 +108,7 @@
     <Compile Include="Korpa.cs" />
     <Compile Include="Posiljka.cs" />
     <Compile Include="Proizvod.cs" />
+    <Compile Include="ProizvodInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionManager.cs" />
   </ItemGroup>

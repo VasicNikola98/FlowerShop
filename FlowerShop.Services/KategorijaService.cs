@@ -84,5 +84,12 @@ namespace FlowerShop.Services
             _kategorije.DeleteOne(x => x.Id == ObjectId.Parse(IdKategorije));
 
         }
+
+        public Kategorija VratiKategoriju(string Id)
+        {
+            var db = SessionManager.GetMongoDB();
+            _kategorije = db.GetCollection<Kategorija>("Kategorije");
+            return _kategorije.Find<Kategorija>(x => true && x.Id == ObjectId.Parse(Id)).FirstOrDefault();
+        }
     }
 }

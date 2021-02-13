@@ -14,6 +14,8 @@ namespace FlowerShop.Entities
         public DateTime DatumPorucivanja { get; set; }
         public float UkupnaCena { get; set; }
         public List<MongoDBRef> Proizvodi { get; set; }
+        public List<ProizvodInfo> InfoProizvoda { get; set; }
+
 
         public string Ime { get; set; }
         public string Prezime { get; set; }
@@ -28,6 +30,7 @@ namespace FlowerShop.Entities
         public Posiljka()
         {
             Proizvodi = new List<MongoDBRef>();
+            InfoProizvoda = new List<ProizvodInfo>();
         }
         
     }
