@@ -3,8 +3,9 @@
     ViewBag.Title = "Index";
 }
 
-<div class="container">
-    <table class="table table-hover">
+<div class="container mb-4">
+    <a href="@Url.Action("DodajProizvod","Proizvod")" style="float:right; margin-bottom:10px; cursor:pointer;" class="btn">Novi proizvod</a>
+    <table id="productTable" class="table-hover">
         <thead>
             <tr>
                 <th>ID</th>
@@ -14,23 +15,26 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var item in Model.Proizvodi)
+            @foreach (var item in Model.Proizvodi)
             {
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.Naziv</td>
                     <td>@item.Opis</td>
                     <td>
-                    <a style="cursor:pointer;" class="btn btn-outline-success btn-sm dodajUKorpu" data-id="@item.Id">Korpa</a>
+                        <a style="cursor:pointer;" class="btn btn-outline-success btn-sm dodajUKorpu" data-id="@item.Id">Korpa</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
 </div>
 
-<script>
 
+
+
+<script>
     function generateUUID() {
         var d = new Date().getTime();
         var d2 = (performance && performance.now && (performance.now() * 1000)) || 0;
@@ -47,10 +51,9 @@
         });
     }
 
-
     $(".dodajUKorpu").click((e) => {
-       
-  
+
+
      let prId = e.target.attributes.getNamedItem("data-id").value;
 
      if (localStorage.getItem('cartHashUserId') == null) {
@@ -58,7 +61,7 @@
          localStorage.setItem('cartHashUserId', hashUserId);
          document.cookie = "cartItemHashedUserId=" + hashUserId + "; path=/";
      }
- 
+
 
       $.ajax({
           method: 'POST',
@@ -84,9 +87,13 @@
                   }
 
                   toastr["success"]("Proizvod je dodat u korpu!");
-                 
+
               }
           });
-   
+
+    });
+
+    $(document).ready(function () {
+        $('#productTable').DataTable();
     });
 </script>

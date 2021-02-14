@@ -91,5 +91,12 @@ namespace FlowerShop.Services
             _kategorije = db.GetCollection<Kategorija>("Kategorije");
             return _kategorije.Find<Kategorija>(x => true && x.Id == ObjectId.Parse(Id)).FirstOrDefault();
         }
+
+        public List<Kategorija> VratiSveKategorije()
+        {
+            var db = SessionManager.GetMongoDB();
+            _kategorije = db.GetCollection<Kategorija>("Kategorije");
+            return _kategorije.Find<Kategorija>(x => true).ToList();
+        }
     }
 }

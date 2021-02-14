@@ -1,8 +1,11 @@
 ﻿using FlowerShop.Entities;
 using FlowerShop.Services;
 using FlowerShop.ViewModels;
+using MongoDB.Driver;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,17 +23,23 @@ namespace FlowerShop.Controllers
         }
 
         [HttpPost]
-        public JsonResult DodajProizvod(Proizvod proizvod)
+        public JsonResult DodajProizvod(NoviProizvodViewModel proizvod)
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             if (proizvod != null)
             {
-                ProizvodService.Instance.DodajProizvod(proizvod);
+                Proizvod noviProizvod = new Proizvod();
+                noviProizvod.Naziv = proizvod.Naziv;
+                noviProizvod.Opis = proizvod.Opis;
+                noviProizvod.ImageUrl = proizvod.ImageUrl;
+                noviProizvod.Cena = proizvod.Cena;
+                noviProizvod.Kategorija = new MongoDBRef("Kategorija", proizvod.Kategorija);
+                ProizvodService.Instance.DodajProizvod(noviProizvod);
                 result.Data = new { Success = true };
             }
             else
-            {
+            { 
                 result.Data = new { Success = false };
             }
             return result;
@@ -67,6 +76,39 @@ namespace FlowerShop.Controllers
             else
             {
                 result.Data = new { Success = false };
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public ActionResult DodajProizvod()
+        {
+            KategorijaViewListingModel model = new KategorijaViewListingModel();
+            model.Kategorije = KategorijaService.Instance.VratiSveKategorije();
+            return View(model);
+        }
+
+        public JsonResult UploadImage()
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            try
+            {
+                var file = Request.Files[0];
+
+                var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+
+                var path = Path.Combine(Server.MapPath("~/content/images/"), fileName);
+
+                file.SaveAs(path);
+
+                result.Data = new { Success = true, ImageUrl = string.Format("/content/images/{0}", fileName) };
+
+            }
+            catch (Exception ex)
+            {
+                result.Data = new { Success = false, Message = ex.Message };
             }
             return result;
         }

@@ -242,6 +242,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\KategorijaViewModels.cs" />
     <Compile Include="ViewModels\KorpaViewModels.cs" />
     <Compile Include="ViewModels\NarudzbinaViewModels.cs" />
     <Compile Include="ViewModels\ProizvodViewModels.cs" />
@@ -377,6 +378,7 @@
     <Content Include="Views\Korpa\Index.cshtml" />
     <Content Include="Views\Narudzbina\Index.cshtml" />
     <Content Include="Views\Narudzbina\DetaljiNarudzbine.cshtml" />
+    <Content Include="Views\Proizvod\DodajProizvod.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
