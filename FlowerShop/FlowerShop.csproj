@@ -379,10 +379,11 @@
     <Content Include="Views\Narudzbina\Index.cshtml" />
     <Content Include="Views\Narudzbina\DetaljiNarudzbine.cshtml" />
     <Content Include="Views\Proizvod\DodajProizvod.cshtml" />
+    <Content Include="Views\Kategorija\Index.cshtml" />
+    <Content Include="Views\Kategorija\DodajKategoriju.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Kategorija\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

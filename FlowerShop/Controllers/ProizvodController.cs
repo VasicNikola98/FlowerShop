@@ -15,10 +15,18 @@ namespace FlowerShop.Controllers
     public class ProizvodController : Controller
     {
         // GET: Proizvod
-        public ActionResult Index()
+        public ActionResult Index(string IdKategorije)
         {
             ProizvodViewModel model = new ProizvodViewModel();
-            model.Proizvodi = ProizvodService.Instance.VratiSveProizvode();
+           
+            if (string.IsNullOrEmpty(IdKategorije))
+            {
+                model.Proizvodi = ProizvodService.Instance.VratiSveProizvode();
+            }
+            else
+            {
+                model.Proizvodi = ProizvodService.Instance.VratiSveProizvode(IdKategorije);
+            }
             return View(model);
         }
 

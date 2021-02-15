@@ -78,6 +78,7 @@ namespace FlowerShop.Services
             foreach (var i in kategorija.Proizvodi)
             {
                 ProizvodService.Instance.IzbrisiProizvod(i.Id.ToString());
+                KorpaService.Instance.IzbrisiProizvodIzKorpe(i.Id.ToString());
 
             }
 

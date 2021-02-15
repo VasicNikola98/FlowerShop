@@ -40,10 +40,10 @@ namespace FlowerShop.Services
             {
                 ProizvodInfo info = new ProizvodInfo();
                 var proizvod=ProizvodService.Instance.VratiProizvod(i.Id.ToString());
-               // var kategorija = KategorijaService.Instance.VratiKategoriju(proizvod.Kategorija.Id.ToString());
+                var kategorija = KategorijaService.Instance.VratiKategoriju(proizvod.Kategorija.Id.ToString());
                 info.Naziv = proizvod.Naziv;
                 info.Cena = proizvod.Cena;
-             //   info.NazivKategorije = kategorija.Naziv;
+                info.NazivKategorije = kategorija.Naziv;
                 posiljka.InfoProizvoda.Add(info);
 
             }

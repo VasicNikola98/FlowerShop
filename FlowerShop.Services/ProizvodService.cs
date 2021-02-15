@@ -34,6 +34,7 @@ namespace FlowerShop.Services
         #endregion
 
         private IMongoCollection<Proizvod> _proizvodi;
+        private IMongoCollection<Kategorija> _kategorije;
 
         public List<Proizvod> VratiSveProizvode()
         {
@@ -42,6 +43,21 @@ namespace FlowerShop.Services
 
             _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
             var proizvodi = _proizvodi.Find(p => true).ToList();
+
+            return proizvodi;
+
+        }
+
+        public List<Proizvod> VratiSveProizvode(string IdKategorije)
+        {
+
+            var db = SessionManager.GetMongoDB();
+
+            _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
+
+
+            var r = new MongoDBRef("Kategorija",IdKategorije);
+            var proizvodi = _proizvodi.Find(p => true && p.Kategorija.Id == r.Id).ToList();
 
             return proizvodi;
 
@@ -58,7 +74,15 @@ namespace FlowerShop.Services
         {
             var db = SessionManager.GetMongoDB();
             _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
+            _kategorije = db.GetCollection<Kategorija>("Kategorije");
+            var kategorija = _kategorije.Find<Kategorija>(x => true && x.Id == ObjectId.Parse(proizvod.Kategorija.Id.AsString)).FirstOrDefault();
+      
             _proizvodi.InsertOne(proizvod);
+
+            var p = _proizvodi.Find<Proizvod>(x => true && x.Naziv.Contains(proizvod.Naziv) && x.Cena == proizvod.Cena && x.ImageUrl.Contains(proizvod.ImageUrl)).FirstOrDefault();
+
+            kategorija.Proizvodi.Add(new MongoDBRef("Proizvodi", p.Id));
+            _kategorije.ReplaceOne(x => x.Id == kategorija.Id, kategorija);
 
         }
 
@@ -66,7 +90,20 @@ namespace FlowerShop.Services
         {
             var db = SessionManager.GetMongoDB();
             _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
+            var proizvod = _proizvodi.Find<Proizvod>(x => true && x.Id == ObjectId.Parse(Id)).FirstOrDefault();
+            _kategorije= db.GetCollection<Kategorija>("Kategorije");
+            var kategorija = _kategorije.Find<Kategorija>(x => true && x.Id == ObjectId.Parse(proizvod.Kategorija.Id.ToString())).FirstOrDefault();
+            for(var i = 0; i< kategorija.Proizvodi.Count; i++)
+            {
+                if (kategorija.Proizvodi[i].Id == proizvod.Id)
+                {
+                    kategorija.Proizvodi.Remove(kategorija.Proizvodi[i]);
+                }
+            }
+            _kategorije.ReplaceOne(x => true && x.Id == kategorija.Id, kategorija);
             _proizvodi.DeleteOne(x => x.Id == ObjectId.Parse(Id));
+
+
         }
 
         public void IzmeniProizvod(string Id,Proizvod proizvod)

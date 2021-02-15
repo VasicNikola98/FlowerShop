@@ -1,5 +1,6 @@
 ﻿using FlowerShop.Entities;
 using FlowerShop.Services;
+using FlowerShop.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,15 @@ namespace FlowerShop.Controllers
     {
         // GET: Kategorija
         public ActionResult Index()
+        {
+            KategorijaViewListingModel model = new KategorijaViewListingModel();
+            model.Kategorije = KategorijaService.Instance.VratiSveKategorije();
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult DodajKategoriju()
         {
             return View();
         }
@@ -73,5 +83,6 @@ namespace FlowerShop.Controllers
             }
             return result;
         }
+
     }
 }

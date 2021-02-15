@@ -1,4 +1,5 @@
 ﻿using FlowerShop.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -54,5 +55,18 @@ namespace FlowerShop.Services
             _korpe.DeleteMany(x => x.HashUserId.Contains(hashID));
         }
 
+        public void IzbrisiIzKorpe(string Id)
+        {
+            var db = SessionManager.GetMongoDB();
+            _korpe = db.GetCollection<Korpa>("Korpe");
+            _korpe.DeleteOne(x => x.Id == ObjectId.Parse(Id));
+        }
+
+        public void IzbrisiProizvodIzKorpe(string Id)
+        {
+            var db = SessionManager.GetMongoDB();
+            _korpe = db.GetCollection<Korpa>("Korpe");
+            _korpe.DeleteMany(x => x.Proizvod.Id == ObjectId.Parse(Id));
+        }
     }
 }

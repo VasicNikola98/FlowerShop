@@ -1,0 +1,77 @@
+﻿@model FlowerShop.ViewModels.KategorijaViewListingModel
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="container mb-4">
+    <a href="@Url.Action("DodajKategoriju","Kategorija")" style="float:right; margin-bottom:10px; cursor:pointer;" class="btn">Nova kategorija</a>
+    <table id="categoryTable" class="table-hover">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Proizvodi</th>
+                <th>Opis</th>
+                <th>Akcija</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Kategorije)
+            {
+
+                <tr>
+                    <td>@item.Naziv</td>
+                    <td>(@item.Proizvodi.Count)</td>
+                    <td>@item.Opis</td>
+                    <td><a class="btn" href="@Url.Action("Index","Proizvod", new { IdKategorije = item.Id.ToString() })">Proizvodi</a></td>
+                    <td><a class="izbrisiKategorijuBtn" data-id="@item.Id" style="font-size:22px; cursor:pointer;">X</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#categoryTable').DataTable();
+    });
+
+    $(".izbrisiKategorijuBtn").click((e) => {
+
+        var id = e.target.attributes.getNamedItem("data-id").value;
+        console.log(id);
+    swal({
+        text: "Da li ste sigurni da želite da izbrišete ovu kategoriju?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: 'POST',
+                    url:'@Url.Action("IzbrisiKategoriju", "Kategorija")',
+                    data: {
+                        IdKategorije: id,
+                    }
+                })
+                    .done(function (response) {
+                        swal("Kategorija je uspesno izbrisana!", {
+                            icon: "success",
+                        }).then((value) => {
+                          window.location = '@Url.Action("Index","Kategorija")';
+                      });
+                    })
+                    .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Fail")
+                    });
+            }
+        });
+    });
+
+</script>

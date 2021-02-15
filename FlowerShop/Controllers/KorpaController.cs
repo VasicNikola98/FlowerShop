@@ -76,6 +76,13 @@ namespace FlowerShop.Controllers
 
             return result;
         }
+        public ActionResult IzbrisiIzKorpe(string Id)
+        {
+         
+            KorpaService.Instance.IzbrisiIzKorpe(Id);
+
+            return RedirectToAction("Index", "Korpa");
+        }
 
     }
 }
