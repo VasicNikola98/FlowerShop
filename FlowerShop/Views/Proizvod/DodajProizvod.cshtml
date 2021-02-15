@@ -4,104 +4,145 @@
 }
 
 <div class="container">
-    <div>
-        <h2 style="text-align:center;">Dodaj Proizvod</h2>
-    </div>
-    <form id="dodajProizvodForma">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="Naziv">Naziv</label>
-                    <input type="text" class="form-control" name="Naziv" id="Naziv" required />
-                </div>
-                <div class="form-group">
-                    <label for="Opis">Opis</label>
-                    <textarea rows="4" class="form-control" name="Opis" id="Opis" required> </textarea>
-                </div>
-                <div class="form-group">
-                    <label for="Cena">Cena</label>
-                    <input type="number" class="form-control" name="Cena" id="Cena" required />
-                </div>
-                <div class="form-group">
-                    <label for="Kategorija">Kategorija</label>
-                    <select class="form-control" id="selectKategorija">
-                        @foreach (var kategorija in Model.Kategorije)
-                        {
-                            <option value="@kategorija.Id">@kategorija.Naziv</option>
-                        }
-                    </select>
-                    <input type="hidden" name="Kategorija" id="Kategorija"/>
-                </div>
-
-                <div class="form-group">
-                    <input type="hidden" name="ImageUrl" id="ImageUrl" />
-                    <label for="ImageUrl">Slika</label>
-                    <input type="file" accept=".jpg, .png" class="form-control" name="ImageUrl" id="imageUpload" required />
-                </div>
-            </div>
-            <div class="col-md-6">
-                <img id="productImage" src="~/Content/upload/author_01.jpg" />
-            </div>
-            <a id="noviProizvod" class="btn" style="cursor:pointer; margin-top:10px; margin-bottom:10px;">Dodaj proizvod</a>
+    @if(Model.Kategorije.Count != 0 && Model.Kategorije != null)
+    {
+        <div>
+            <h2 style="text-align:center;">Dodaj Proizvod</h2>
         </div>
-    </form>
+        <form id="dodajProizvodForma">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Naziv">Naziv</label>
+                        <input type="text" class="form-control" name="Naziv" id="Naziv" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Opis">Opis</label>
+                        <textarea rows="4" class="form-control" name="Opis" id="Opis"> </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="Cena">Cena</label>
+                        <input type="number" class="form-control" name="Cena" id="Cena" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Kategorija">Kategorija</label>
+                        <select class="form-control" id="selectKategorija">
+                            @foreach (var kategorija in Model.Kategorije)
+                            {
+                                <option value="@kategorija.Id">@kategorija.Naziv</option>
+                            }
+                        </select>
+                        <input type="hidden" name="Kategorija" id="Kategorija"/>
+                    </div>
+        
+                    <div class="form-group">
+                        <input type="hidden" name="ImageUrl" id="ImageUrl" />
+                        <label for="ImageUrl">Slika</label>
+                        <input type="file" accept=".jpg, .png" class="form-control" name="ImageUrl" id="imageUpload" required />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img  style="height:400px; width:547px;" id="productImage" src="~/Content/upload/noImage.jpg" />
+                </div>
+                <a id="noviProizvod" class="btn" style="cursor:pointer; margin-top:10px; margin-bottom:10px;">Dodaj proizvod</a>
+            </div>
+        </form>
+    }
+    else
+    {
+      <div style="height:500px;">
+          <div class="alert alert-warning">
+              <h3>Jos uvek ne postoji ni jedna kategorija cveca. Da biste dodali kategoriju pritisnite <a style="color:darkgreen;" href="@Url.Action("DodajKategoriju","Kategorija")">ovde.</a></h3>
+          </div>
+      </div>
+       
+    }
 </div>
 
 <script>
 
-    $("#noviProizvod").click(() => {
+    $('#dodajProizvodForma').validate({
+        rules: {
+            Naziv: {
+                required: true
+            },
+            Cena: {
+                required: true
+            }
+        },
+        messages: {
+            Naziv: {
+                required: 'Ovo polje je obavezno!'
+            },
+            Cena: {
+                required: 'Ovo polje je obavezno!'
+            }
+        }
+    });
+
+     $("#noviProizvod").click(() => {
 
         var e = document.getElementById("selectKategorija");
         var kategorijaID = e.options[e.selectedIndex].value;
         var kategorija = document.getElementById("Kategorija");
-        kategorija.value = kategorijaID;
-        $.ajax({
-            method: 'POST',
-            dataType: 'json',
-            url: '@Url.Action("DodajProizvod", "Proizvod")',
-            data: $("#dodajProizvodForma").serialize()
-        })
-        .done(function (response) {
-            if (response.Success) {
-                
-        
-                swal("Gotovo", "Proizvod je uspešno dodat.", "success").then((value) => {
-                      window.location ='@Url.Action("Index","Proizvod")';
-                  });
-        
-            }
-        });
+         kategorija.value = kategorijaID;
+
+
+         if ($("#dodajProizvodForma").valid()) {
+             $.ajax({
+                 method: 'POST',
+                 dataType: 'json',
+                 url: '@Url.Action("DodajProizvod", "Proizvod")',
+                 data: $("#dodajProizvodForma").serialize()
+             })
+                 .done(function (response) {
+                     if (response.Success) {
+                         swal("Gotovo", "Proizvod je uspešno dodat.", "success").then((value) => {
+                             window.location = '@Url.Action("Index","Proizvod")';
+                         });
+
+                     }
+                 });
+         }
+         else {
+             swal({
+                 title: "Upozorenje!",
+                 text: "Popunite sva obavezna polja!",
+                 icon: "warning",
+                 dangerMode: true,
+             });
+         }
     });
 
      $("#imageUpload").change(function () {
 
 
-    var element = this;
-    var formData = new FormData();
-    var totalFiles = element.files.length;
-
-        for (var i = 0; i < totalFiles; i++) {
-            var file = element.files[i];
-            formData.append("Photo", file);
-         }
-        
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("UploadImage", "Proizvod")',
-            dataType: 'json',
-            data: formData,
-            contentType: false,
-            processData: false
-        })
-            .done(function (response) {
-                console.log(response);
-                if (response.Success) {
-                    $("#productImage").attr("src", response.ImageUrl);
-                    $("#ImageUrl").val(response.ImageUrl);
-                }
+        var element = this;
+        var formData = new FormData();
+        var totalFiles = element.files.length;
+       
+            for (var i = 0; i < totalFiles; i++) {
+                var file = element.files[i];
+                formData.append("Photo", file);
+             }
+            
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("UploadImage", "Proizvod")',
+                dataType: 'json',
+                data: formData,
+                contentType: false,
+                processData: false
             })
-            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("Fail")
-            });
-});
+                .done(function (response) {
+                    console.log(response);
+                    if (response.Success) {
+                        $("#productImage").attr("src", response.ImageUrl);
+                        $("#ImageUrl").val(response.ImageUrl);
+                    }
+                })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Fail")
+                });
+     });
 </script>

@@ -35,8 +35,8 @@ namespace FlowerShop.Controllers
             return result;
         }
 
+
         [HttpGet]
-        
         public ActionResult DetaljiNarudzbine(string Id)
         {
             NarudzbinaViewModel model = new NarudzbinaViewModel();

@@ -32,6 +32,8 @@ namespace FlowerShop.Services
 
         private IMongoCollection<Posiljka> _posiljke;
 
+
+
         public void KreirajNarudzbinu(Posiljka posiljka)
         {
 

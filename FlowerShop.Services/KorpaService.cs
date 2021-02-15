@@ -32,6 +32,8 @@ namespace FlowerShop.Services
 
         private IMongoCollection<Korpa> _korpe;
 
+
+
         public void DodajUKorpu(Korpa korpa,string IdProizvoda)
         {
             var db = SessionManager.GetMongoDB();
@@ -40,6 +42,7 @@ namespace FlowerShop.Services
             korpa.Proizvod = new MongoDBRef("Proizvod", proizvod.Id);
             _korpe.InsertOne(korpa);
         }
+
         public List<Korpa> VratiProizvodeByHashedID(string hashId)
         {
             var db = SessionManager.GetMongoDB();

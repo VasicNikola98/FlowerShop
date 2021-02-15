@@ -19,16 +19,16 @@
         <tbody>
             @foreach (var item in Model.Proizvodi)
             {
-            <tr>
-                <td><img src="@item.ImageUrl" alt="slika proizvoda" style="width:250px; height:200px;" /></td>
-                <td>@item.Naziv</td>
-                <td>@item.Opis</td>
-                <td>@item.Cena</td>
-                <td>
-                    <a style="cursor:pointer;" class="btn btn-outline-success btn-sm dodajUKorpu" data-id="@item.Id">Korpa</a>
-                </td>
-                <td><a class="izbrisiProizvodBtn" data-id="@item.Id" style="font-size:22px; cursor:pointer;">X</a></td>
-            </tr>
+                <tr>
+                    <td><img src="@item.ImageUrl" alt="slika proizvoda" style="width:225px; height:200px;" /></td>
+                    <td>@item.Naziv</td>
+                    <td>@item.Opis</td>
+                    <td>@item.Cena</td>
+                    <td>
+                        <a style="cursor:pointer;" class="btn btn-outline-success btn-sm dodajUKorpu" data-id="@item.Id">Korpa</a>
+                    </td>
+                    <td><a class="izbrisiProizvodBtn" data-id="@item.Id" style="font-size:22px; cursor:pointer;">X</a></td>
+                </tr>
             }
         </tbody>
     </table>

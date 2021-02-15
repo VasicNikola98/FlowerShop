@@ -29,23 +29,54 @@
 
 <script>
 
-    $("#novaKategorija").click(() => {
-        $.ajax({
-            method: 'POST',
-            dataType: 'json',
-            url: '@Url.Action("DodajKategoriju", "Kategorija")',
-            data: $("#dodajKategorijuForma").serialize()
-        })
-        .done(function (response) {
-            if (response.Success) {
-
-
-                swal("Gotovo", "Kategorija je uspesno dodata.", "success").then((value) => {
-                      window.location ='@Url.Action("Index","Kategorija")';
-                  });
-
+    $('#dodajKategorijuForma').validate({
+        rules: {
+            Naziv: {
+                required: true
+            },
+            Opis: {
+                required: true
             }
-        });
+        },
+        messages: {
+            Naziv: {
+                required: 'Ovo polje je obavezno!'
+            },
+            Opis: {
+                required: 'Ovo polje je obavezno!'
+            }
+        }
+    });
+
+
+
+    $("#novaKategorija").click(() => {
+        if ($("#dodajKategorijuForma").valid()) {
+            $.ajax({
+                method: 'POST',
+                dataType: 'json',
+                url: '@Url.Action("DodajKategoriju", "Kategorija")',
+                data: $("#dodajKategorijuForma").serialize()
+            })
+                .done(function (response) {
+                    if (response.Success) {
+
+
+                        swal("Gotovo", "Kategorija je uspesno dodata.", "success").then((value) => {
+                            window.location = '@Url.Action("Index","Kategorija")';
+                        });
+
+                    }
+                });
+        }
+        else {
+            swal({
+                title: "Upozorenje!",
+                text: "Popunite sva obavezna polja!",
+                icon: "warning",
+                dangerMode: true,
+            });
+        }
     });
 
 

@@ -32,6 +32,9 @@ namespace FlowerShop.Services
 
         private IMongoCollection<Kategorija> _kategorije;
 
+
+
+
         public void DodajKategoriju(Kategorija kategorija)
         {
             var db = SessionManager.GetMongoDB();

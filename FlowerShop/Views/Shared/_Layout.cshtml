@@ -66,8 +66,8 @@
         <div class="collapse top-search" id="collapseExample">
             <div class="card card-block">
                 <div class="newsletter-widget text-center">
-                    <form class="form-inline">
-                        <input type="text" class="form-control" placeholder="What you are looking for?">
+                    <form class="form-inline" action="@Url.Action("Index","Proizvod")">
+                        <input type="text" class="form-control" name="searchTerm" id="searchTerm" placeholder="Pretrazi...">
                         <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                     </form>
                 </div><!-- end newsletter -->

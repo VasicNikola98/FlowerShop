@@ -20,6 +20,7 @@ namespace FlowerShop.Controllers
             return View(model);
         }
 
+       
         [HttpGet]
         public ActionResult DodajKategoriju()
         {
@@ -43,6 +44,7 @@ namespace FlowerShop.Controllers
             return result;
 
         }
+       
 
         [HttpPost]
         public JsonResult DodajUKategoriju(string IdKategorije,string IdProizvoda)
@@ -67,6 +69,7 @@ namespace FlowerShop.Controllers
             KategorijaService.Instance.VratiProizvodePoKategoriji(IdKategorije);
             return View();
         }
+
 
         public JsonResult IzbrisiKategoriju(string IdKategorije)
         {

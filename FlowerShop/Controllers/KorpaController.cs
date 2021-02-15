@@ -32,6 +32,7 @@ namespace FlowerShop.Controllers
             return View(model);
         }
 
+
         public JsonResult DodajUKorpu(string Kolicina, string IdProizvoda)
         {
             JsonResult result = new JsonResult();
@@ -76,6 +77,7 @@ namespace FlowerShop.Controllers
 
             return result;
         }
+
         public ActionResult IzbrisiIzKorpe(string Id)
         {
          

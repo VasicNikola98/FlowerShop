@@ -15,18 +15,31 @@ namespace FlowerShop.Controllers
     public class ProizvodController : Controller
     {
         // GET: Proizvod
-        public ActionResult Index(string IdKategorije)
+        public ActionResult Index(string IdKategorije, string searchTerm)
         {
             ProizvodViewModel model = new ProizvodViewModel();
            
-            if (string.IsNullOrEmpty(IdKategorije))
+            if (!string.IsNullOrEmpty(IdKategorije))
             {
-                model.Proizvodi = ProizvodService.Instance.VratiSveProizvode();
+                model.Proizvodi = ProizvodService.Instance.VratiSveProizvode(IdKategorije);
+                
+            }
+            else if(!string.IsNullOrEmpty(searchTerm))
+            {
+                model.Proizvodi = ProizvodService.Instance.VratiSveProizvodeSearch(searchTerm);
             }
             else
             {
-                model.Proizvodi = ProizvodService.Instance.VratiSveProizvode(IdKategorije);
+                model.Proizvodi = ProizvodService.Instance.VratiSveProizvode();
             }
+            return View(model);
+        }
+       
+        [HttpGet]
+        public ActionResult DodajProizvod()
+        {
+            KategorijaViewListingModel model = new KategorijaViewListingModel();
+            model.Kategorije = KategorijaService.Instance.VratiSveKategorije();
             return View(model);
         }
 
@@ -54,6 +67,24 @@ namespace FlowerShop.Controllers
 
         }
 
+
+        [HttpPost]
+        public JsonResult IzmeniProizvod(string Id, Proizvod proizvod)
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            if (proizvod != null)
+            {
+                ProizvodService.Instance.IzmeniProizvod(Id, proizvod);
+                result.Data = new { Success = true };
+            }
+            else
+            {
+                result.Data = new { Success = false };
+            }
+            return result;
+        }
+
         [HttpPost]
         public JsonResult IzbrisiProizvod(string Id)
         {
@@ -69,31 +100,6 @@ namespace FlowerShop.Controllers
                 result.Data = new { Success = false };
             }
             return result;
-        }
-
-        [HttpPost]
-        public JsonResult IzmeniProizvod(string Id,Proizvod proizvod)
-        {
-            JsonResult result = new JsonResult();
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            if (proizvod != null)
-            {
-                ProizvodService.Instance.IzmeniProizvod(Id,proizvod);
-                result.Data = new { Success = true };
-            }
-            else
-            {
-                result.Data = new { Success = false };
-            }
-            return result;
-        }
-
-        [HttpGet]
-        public ActionResult DodajProizvod()
-        {
-            KategorijaViewListingModel model = new KategorijaViewListingModel();
-            model.Kategorije = KategorijaService.Instance.VratiSveKategorije();
-            return View(model);
         }
 
         public JsonResult UploadImage()

@@ -33,8 +33,11 @@ namespace FlowerShop.Services
         }
         #endregion
 
+
         private IMongoCollection<Proizvod> _proizvodi;
         private IMongoCollection<Kategorija> _kategorije;
+
+
 
         public List<Proizvod> VratiSveProizvode()
         {
@@ -43,6 +46,18 @@ namespace FlowerShop.Services
 
             _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
             var proizvodi = _proizvodi.Find(p => true).ToList();
+
+            return proizvodi;
+
+        }
+
+        public List<Proizvod> VratiSveProizvodeSearch(string searchTerm)
+        {
+
+            var db = SessionManager.GetMongoDB();
+
+            _proizvodi = db.GetCollection<Proizvod>("Proizvodi");
+            var proizvodi = _proizvodi.Find(p => true && p.Naziv.ToLower().Contains(searchTerm.ToLower()) || p.Opis.ToLower().Contains(searchTerm.ToLower())).ToList();
 
             return proizvodi;
 
@@ -62,6 +77,7 @@ namespace FlowerShop.Services
             return proizvodi;
 
         }
+
         public Proizvod VratiProizvod(string Id)
         {
             var db = SessionManager.GetMongoDB();
